@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Pharmacy Management{% endblock %}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="app-shell">
+        <aside class="sidebar">
+            <div class="brand">
+                <h1>PharmaCare</h1>
+                <p>Commercial Pharmacy</p>
+            </div>
+            {% if session.get('user_id') %}
+            <nav class="nav">
+                <a href="{{ url_for('dashboard') }}">Dashboard</a>
+                <a href="{{ url_for('inventory') }}">Inventory</a>
+                <a href="{{ url_for('sales') }}">Sales</a>
+                <a href="{{ url_for('reports') }}">Reports</a>
+                <a href="{{ url_for('logout') }}">Logout</a>
+            </nav>
+            {% endif %}
+        </aside>
+
+        <main class="content">
+            {% with messages = get_flashed_messages() %}
+              {% if messages %}
+                <div class="flash-list">
+                  {% for message in messages %}
+                    <div class="flash-message">{{ message }}</div>
+                  {% endfor %}
+                </div>
+              {% endif %}
+            {% endwith %}
+
+            {% block content %}{% endblock %}
+        </main>
+    </div>
+</body>
+</html>

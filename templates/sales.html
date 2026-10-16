@@ -1,0 +1,52 @@
+{% extends 'base.html' %}
+{% block title %}Sales | Pharmacy Management{% endblock %}
+{% block content %}
+<div class="page-header">
+    <div>
+        <span class="eyebrow">Transactions</span>
+        <h2>Sales registration</h2>
+    </div>
+</div>
+
+<form method="post" class="form-grid sale-form">
+    <label>
+        Product
+        <select name="product_id" required>
+            {% for product in products %}
+            <option value="{{ product.id }}">{{ product.name }} ({{ product.stock_qty }} in stock)</option>
+            {% endfor %}
+        </select>
+    </label>
+    <label>
+        Quantity
+        <input type="number" min="1" name="quantity" value="1" required>
+    </label>
+    <label>
+        Unit price
+        <input type="number" step="0.01" name="unit_price" value="0.00" required>
+    </label>
+    <div class="actions-row">
+        <button type="submit">Record sale</button>
+    </div>
+</form>
+
+<section class="panel">
+    <h3>Recent sales</h3>
+    <table>
+        <thead>
+            <tr><th>Product</th><th>Qty</th><th>Total</th><th>Date</th><th>Cashier</th></tr>
+        </thead>
+        <tbody>
+            {% for sale in sales %}
+            <tr>
+                <td>{{ sale.name }}</td>
+                <td>{{ sale.quantity }}</td>
+                <td>GHS {{ '%.2f'|format(sale.total) }}</td>
+                <td>{{ sale.sold_at }}</td>
+                <td>{{ sale.cashier }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</section>
+{% endblock %}

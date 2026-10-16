@@ -1,0 +1,109 @@
+{% extends 'base.html' %}
+{% block title %}Dashboard | Pharmacy Management{% endblock %}
+{% block content %}
+<div class="page-header">
+    <div>
+        <span class="eyebrow">Pharmacy overview</span>
+        <h2>Welcome, {{ user_name }}</h2>
+    </div>
+</div>
+
+<div class="stats-grid">
+    <div class="stat-card">
+        <span>Total products</span>
+        <strong>{{ metrics.products }}</strong>
+    </div>
+    <div class="stat-card">
+        <span>Units in stock</span>
+        <strong>{{ metrics.stock_units }}</strong>
+    </div>
+    <div class="stat-card">
+        <span>Inventory value</span>
+        <strong>GHS {{ '%.2f'|format(metrics.inventory_value) }}</strong>
+    </div>
+    <div class="stat-card">
+        <span>Monthly revenue</span>
+        <strong>GHS {{ '%.2f'|format(metrics.monthly_revenue) }}</strong>
+    </div>
+    <div class="stat-card">
+        <span>Orders this month</span>
+        <strong>{{ metrics.monthly_orders }}</strong>
+    </div>
+</div>
+
+<div class="panel-grid">
+    <section class="panel">
+        <h3>Low stock alerts</h3>
+        {% if low_stock %}
+            <ul class="list">
+                {% for item in low_stock %}
+                <li><span>{{ item.name }}</span><strong>{{ item.stock_qty }} left</strong></li>
+                {% endfor %}
+            </ul>
+        {% else %}
+            <p class="muted">No low-stock items.</p>
+        {% endif %}
+    </section>
+
+    <section class="panel">
+        <h3>Expiring soon</h3>
+        {% if expiring %}
+            <ul class="list">
+                {% for item in expiring %}
+                <li><span>{{ item.name }}</span><strong>{{ item.expiry_date }}</strong></li>
+                {% endfor %}
+            </ul>
+        {% else %}
+            <p class="muted">No near-expiry items.</p>
+        {% endif %}
+    </section>
+</div>
+
+<div class="panel-grid">
+    <section class="panel span-2">
+        <h3>Top-selling products</h3>
+        {% if top_products %}
+        <table>
+            <thead>
+                <tr><th>Product</th><th>Units sold</th><th>Revenue</th></tr>
+            </thead>
+            <tbody>
+                {% for item in top_products %}
+                <tr>
+                    <td>{{ item.name }}</td>
+                    <td>{{ item.units }}</td>
+                    <td>GHS {{ '%.2f'|format(item.revenue) }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        {% else %}
+            <p class="muted">No sales recorded yet.</p>
+        {% endif %}
+    </section>
+</div>
+
+<section class="panel">
+    <h3>Recent sales</h3>
+    {% if recent_sales %}
+    <table>
+        <thead>
+            <tr><th>Product</th><th>Qty</th><th>Amount</th><th>Date</th><th>Cashier</th></tr>
+        </thead>
+        <tbody>
+            {% for sale in recent_sales %}
+            <tr>
+                <td>{{ sale.name }}</td>
+                <td>{{ sale.quantity }}</td>
+                <td>GHS {{ '%.2f'|format(sale.total) }}</td>
+                <td>{{ sale.sold_at }}</td>
+                <td>{{ sale.cashier }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    {% else %}
+        <p class="muted">No recent sales.</p>
+    {% endif %}
+</section>
+{% endblock %}

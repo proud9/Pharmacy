@@ -1,0 +1,57 @@
+{% extends 'base.html' %}
+{% block title %}Reports | Pharmacy Management{% endblock %}
+{% block content %}
+<div class="page-header">
+    <div>
+        <span class="eyebrow">Business intelligence</span>
+        <h2>Analytics and reports</h2>
+    </div>
+</div>
+
+<div class="panel-grid">
+    <section class="panel span-2">
+        <h3>Sales revenue trend</h3>
+        <div class="chart-bars">
+            {% for item in monthly_sales %}
+            <div class="bar-group">
+                <div class="bar" style="height: {{ item.bar_width }}%;"></div>
+                <span>{{ item.month }}</span>
+            </div>
+            {% endfor %}
+        </div>
+    </section>
+</div>
+
+<div class="panel-grid">
+    <section class="panel">
+        <h3>Top revenue products</h3>
+        <table>
+            <thead><tr><th>Product</th><th>Revenue</th></tr></thead>
+            <tbody>
+                {% for item in top_products %}
+                <tr>
+                    <td>{{ item.name }}</td>
+                    <td>GHS {{ '%.2f'|format(item.revenue) }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </section>
+
+    <section class="panel">
+        <h3>Low stock items</h3>
+        <table>
+            <thead><tr><th>Product</th><th>Stock</th><th>Reorder</th></tr></thead>
+            <tbody>
+                {% for item in low_stock %}
+                <tr>
+                    <td>{{ item.name }}</td>
+                    <td>{{ item.stock_qty }}</td>
+                    <td>{{ item.reorder_level }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </section>
+</div>
+{% endblock %}

@@ -1,0 +1,47 @@
+{% extends 'base.html' %}
+{% block title %}Inventory | Pharmacy Management{% endblock %}
+{% block content %}
+<div class="page-header split">
+    <div>
+        <span class="eyebrow">Inventory control</span>
+        <h2>Product catalogue</h2>
+    </div>
+    <a href="{{ url_for('add_inventory') }}" class="button">Add product</a>
+</div>
+
+<form class="toolbar" method="get">
+    <input type="text" name="q" value="{{ search }}" placeholder="Search products or SKU">
+    <button type="submit">Search</button>
+</form>
+
+<table>
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Category</th>
+            <th>SKU</th>
+            <th>Unit Price</th>
+            <th>Stock</th>
+            <th>Reorder</th>
+            <th>Expiry</th>
+            <th>Action</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for product in products %}
+        <tr>
+            <td>{{ product.name }}</td>
+            <td>{{ product.category }}</td>
+            <td>{{ product.sku }}</td>
+            <td>GHS {{ '%.2f'|format(product.unit_price) }}</td>
+            <td>{{ product.stock_qty }}</td>
+            <td>{{ product.reorder_level }}</td>
+            <td>{{ product.expiry_date or '—' }}</td>
+            <td><a href="{{ url_for('edit_inventory', product_id=product.id) }}">Edit</a></td>
+        </tr>
+        {% else %}
+        <tr><td colspan="8" class="muted">No products found.</td></tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}

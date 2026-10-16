@@ -1,6 +1,10 @@
-# PharmaCare pharmacy management prototype
+# Pharmacy
 
-A local Flask and SQLite starter app with a dashboard, inventory catalogue,
+Digital Pharmacy Management
+
+## About
+
+PharmaCare is a local Flask and SQLite starter app with a dashboard, inventory catalogue,
 stock levels, sales entry, expiry and reorder alerts, and basic reports.
 
 ## Run on Windows
